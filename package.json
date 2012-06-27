@@ -1,0 +1,7 @@
+{
+	"name": "goom-client-js",
+	"version": "0.0.1",
+	"dependencies": {"goom-graphics-js": ">=0.0.1"},
+	"devDependencies": {"jasmine-node": ">=1.0.22", "jake": ">=0.2.28", "sentry": "0.1.2", "browserify": ">=1.10.15"},
+	"main": "src/client.js"
+}
