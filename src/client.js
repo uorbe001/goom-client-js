@@ -83,8 +83,7 @@ Client.prototype.initWorld = function(config) {
 Client.prototype.update = function(elapsed) {
 	requestAnimationFrame(this.drawCallback);
 	//TODO: Update anims?
-	//TODO: Remove this comment!
-	//this.world.integrateIntances(elapsed * 0.001);//Integration works in seconds :-(
+	this.world.integrateIntances(elapsed * 0.001);//Integration works in seconds :-(
 	this.world.draw();
 };
 

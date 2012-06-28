@@ -1473,12 +1473,7 @@ ModelInstance.prototype.updateFromRemote = function(data) {
 	var distance = 0;
 
 	if (data.position) {
-		distance = this.position.substract(data.position, __helperVector).length();
-
-		if (distance > 2)
-			this.position.set(data.position.x, data.position.y, data.position.z);
-		else if (distance > 0.1)
-			this.position.add(__helperVector.scale(0.1));
+		this.position.set(data.position.x, data.position.y, data.position.z);
 	}
 
 	if (data.orientation) {
@@ -1501,8 +1496,8 @@ ModelInstance.prototype.updateFromRemote = function(data) {
 	Integrates this instance and updates its position.
 */
 ModelInstance.prototype.integrate = function(duration) {
-	this.position.add(this.velocity.scale(duration, __helperVector));
-	this.orientation.addVector(this.angular_velocity.scale(duration, __helperVector));
+	this.position.add(this.velocity.scale(duration * 0.9, __helperVector));
+	this.orientation.addVector(this.angular_velocity.scale(duration * 0.9, __helperVector));
 	this.transformationMatrix.makeFromPositionAndOrientation(this.position, this.orientation);
 };
 
@@ -2922,7 +2917,7 @@ function Camera(viewport_width, viewport_height) {
 	this.viewportWidth = viewport_width;
 	this.viewportHeight = viewport_height;
 	this.isOrthographic = false;
-	this.position = new Mathematics.Vector3D(0,0,75);
+	this.position = new Mathematics.Vector3D(0,0,-75);
 	this.target = new Mathematics.Vector3D(0,0,0);
 	this.upVector = Mathematics.Vector3D.UP.clone();
 	this.view = new Mathematics.Matrix4D();
@@ -3100,8 +3095,7 @@ Client.prototype.initWorld = function(config) {
 Client.prototype.update = function(elapsed) {
 	requestAnimationFrame(this.drawCallback);
 	//TODO: Update anims?
-	//TODO: Remove this comment!
-	//this.world.integrateIntances(elapsed * 0.001);//Integration works in seconds :-(
+	this.world.integrateIntances(elapsed * 0.001);//Integration works in seconds :-(
 	this.world.draw();
 };
 
