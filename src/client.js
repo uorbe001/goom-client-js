@@ -45,13 +45,15 @@ Client.prototype.receiveEvent = function(event) {
 		return;
 	}
 
+	var i;
+
 	switch(event.type) {
 		case "init":
 			this.initWorld(event.config);
 			this.sendToServerCallback({"type": "ready"});
 
 			//Process the stored events.
-			for (var i = 0, len = this.storedEvents.length; i < len; i++) {
+			for (i = 0, len = this.storedEvents.length; i < len; i++) {
 				this.receiveEvent(this.storedEvents.shift());
 			}
 
@@ -65,6 +67,11 @@ Client.prototype.receiveEvent = function(event) {
 			this.world.addInstance(event);
 			this.world.resume();
 			break;
+		case "play_animation":
+			for (i = 0, len = this.world.allInstances.length; i < len; ++i) {
+				if (this.world.allInstances[i].id != event.player_id) continue;
+				this.world.allInstances[i].model.playAnimation(event.animation_name);
+			}
 	}
 };
 
